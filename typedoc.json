@@ -1,0 +1,24 @@
+{
+  "entryPoints": [
+    "packages/core/src/index.ts",
+    "packages/client/src/index.ts", 
+    "packages/server/src/index.ts"
+  ],
+  "out": "docs",
+  "theme": "default",
+  "readme": "README.md",
+  "name": "ts-json-rpc",
+  "includeVersion": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "categorizeByGroup": false,
+  "sort": ["source-order"],
+  "gitRevision": "main",
+  "gitRemote": "origin",
+  "validation": {
+    "notExported": true,
+    "invalidLink": true,
+    "notDocumented": false
+  }
+}
