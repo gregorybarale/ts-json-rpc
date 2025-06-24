@@ -1,0 +1,36 @@
+{
+  "name": "@ts-json-rpc/core",
+  "version": "1.0.0",
+  "description": "Core types and utilities for JSON-RPC 2.0 implementation",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/",
+    "src/",
+    "!src/**/*.spec.ts",
+    "!src/**/*.test.ts"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "json-rpc",
+    "typescript",
+    "types",
+    "core"
+  ],
+  "author": "",
+  "license": "MIT"
+}
