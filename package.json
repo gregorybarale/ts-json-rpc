@@ -15,7 +15,9 @@
     "test": "npm run test --workspaces",
     "lint": "eslint packages/*/src/**/*.ts",
     "format": "prettier --write packages/*/src/**/*.ts",
-    "docs": "typedoc"
+    "docs": "typedoc",
+    "changelog": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s",
+    "changelog:first": "conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 0"
   },
   "keywords": [
     "json-rpc",
@@ -30,6 +32,8 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.35.0",
     "@typescript-eslint/parser": "^8.35.0",
+    "conventional-changelog-cli": "^5.0.0",
+    "conventional-changelog-conventionalcommits": "^9.0.0",
     "eslint": "^9.29.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-import-resolver-typescript": "^4.4.3",

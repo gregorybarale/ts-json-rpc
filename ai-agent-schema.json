@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ts-json-rpc AI/LLM Agent Documentation Schema",
+  "description": "Structured documentation schema for LLM/AI agents to understand and work with the ts-json-rpc library",
+  "type": "object",
+  "properties": {
+    "library": {
+      "type": "object",
+      "properties": {
+        "name": "ts-json-rpc",
+        "version": "1.0.0",
+        "description": "A robust, type-safe, and transport-agnostic TypeScript library for building JSON-RPC 2.0 clients and servers",
+        "architecture": "monorepo",
+        "packages": {
+          "type": "array",
+          "items": [
+            {
+              "name": "@ts-json-rpc/core",
+              "purpose": "Core types and utilities for JSON-RPC 2.0 implementation",
+              "exports": [
+                "JSONRPCRequest",
+                "JSONRPCNotification", 
+                "JSONRPCResponse",
+                "JSONRPCError",
+                "createJsonRpcRequest",
+                "createJsonRpcNotification",
+                "createJsonRpcError",
+                "isJSONRPCRequest",
+                "isJSONRPCResponse",
+                "JSONRPC_ERROR_CODES"
+              ]
+            },
+            {
+              "name": "@ts-json-rpc/client", 
+              "purpose": "Type-safe JSON-RPC 2.0 client implementation",
+              "exports": [
+                "JsonRpcClient",
+                "JsonRpcClientTransport",
+                "createJsonRpcClient"
+              ]
+            },
+            {
+              "name": "@ts-json-rpc/server",
+              "purpose": "Type-safe JSON-RPC 2.0 server implementation", 
+              "exports": [
+                "JsonRpcServer",
+                "JsonRpcMethodHandler",
+                "JsonRpcMethodMap",
+                "JsonRpcServerOptions",
+                "createJsonRpcServer"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "common_patterns": {
+      "type": "object",
+      "properties": {
+        "client_setup": {
+          "description": "How to create and configure a JSON-RPC client",
+          "example": "import { createJsonRpcClient } from '@ts-json-rpc/client';\nconst transport = async (request) => { /* HTTP transport */ };\nconst client = createJsonRpcClient(transport);"
+        },
+        "server_setup": {
+          "description": "How to create and configure a JSON-RPC server",
+          "example": "import { createJsonRpcServer } from '@ts-json-rpc/server';\nconst methods = { add: (params) => params.a + params.b };\nconst server = createJsonRpcServer(methods);"
+        },
+        "making_requests": {
+          "description": "How to make RPC calls",
+          "example": "const result = await client.call<number>('add', { a: 1, b: 2 });"
+        },
+        "sending_notifications": {
+          "description": "How to send notifications (no response expected)",
+          "example": "client.notify('log', { message: 'Hello world' });"
+        },
+        "error_handling": {
+          "description": "How to handle JSON-RPC errors",
+          "example": "try { const result = await client.call('method', params); } catch (error) { console.log(error.code, error.message); }"
+        }
+      }
+    },
+    "integration_guides": {
+      "type": "object",
+      "properties": {
+        "http_transport": {
+          "description": "Using with HTTP transport (fetch, axios, etc.)",
+          "example": "const transport = async (request) => {\n  const response = await fetch('/api/jsonrpc', {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(request)\n  });\n  return response.json();\n};"
+        },
+        "websocket_transport": {
+          "description": "Using with WebSocket transport",
+          "example": "const transport = async (request) => {\n  return new Promise((resolve) => {\n    websocket.send(JSON.stringify(request));\n    websocket.onmessage = (event) => resolve(JSON.parse(event.data));\n  });\n};"
+        },
+        "express_server": {
+          "description": "Integrating server with Express.js",
+          "example": "app.post('/api/jsonrpc', async (req, res) => {\n  const response = await server.handleJsonRpcRequest(req.body);\n  if (response !== null) {\n    res.json(response);\n  } else {\n    res.status(204).send();\n  }\n});"
+        }
+      }
+    },
+    "type_definitions": {
+      "type": "object",
+      "properties": {
+        "core_types": {
+          "JSONRPCRequest": "Interface for JSON-RPC 2.0 request messages with method, params, and id",
+          "JSONRPCNotification": "Interface for JSON-RPC 2.0 notification messages (requests without id)",
+          "JSONRPCResponse": "Union type for success or error response messages",
+          "JSONRPCError": "Interface for JSON-RPC error objects with code, message, and optional data"
+        },
+        "client_types": {
+          "JsonRpcClient": "Client interface with call() and notify() methods",
+          "JsonRpcClientTransport": "Function type for transport implementation"
+        },
+        "server_types": {
+          "JsonRpcMethodHandler": "Function type for method handlers that process requests",
+          "JsonRpcMethodMap": "Record mapping method names to handler functions",
+          "JsonRpcServerOptions": "Configuration options for server behavior"
+        }
+      }
+    },
+    "troubleshooting": {
+      "type": "object",
+      "properties": {
+        "common_errors": [
+          {
+            "error": "Method not found",
+            "cause": "Server doesn't have a handler for the requested method",
+            "solution": "Add method handler to server methods map"
+          },
+          {
+            "error": "Invalid params", 
+            "cause": "Parameters don't match expected method signature",
+            "solution": "Ensure params match method handler parameter types"
+          },
+          {
+            "error": "Parse error",
+            "cause": "Invalid JSON in request payload",
+            "solution": "Validate JSON before sending to server"
+          },
+          {
+            "error": "Transport error",
+            "cause": "Network or transport layer failure",
+            "solution": "Implement proper error handling in transport function"
+          }
+        ]
+      }
+    },
+    "best_practices": {
+      "type": "array",
+      "items": [
+        "Always use TypeScript for better type safety and IDE support",
+        "Implement proper error handling in transport functions",
+        "Use meaningful method names that describe the operation",
+        "Validate parameters in method handlers before processing",
+        "Handle both synchronous and asynchronous method handlers",
+        "Use notifications for fire-and-forget operations",
+        "Implement context passing for user authentication and session data",
+        "Use batch requests for multiple related operations",
+        "Configure appropriate logging for debugging and monitoring",
+        "Test both success and error scenarios in your implementations"
+      ]
+    },
+    "testing": {
+      "type": "object",  
+      "properties": {
+        "framework": "Vitest",
+        "test_patterns": [
+          "Mock transport functions for client testing",
+          "Test method handlers independently from server",
+          "Test error conditions and edge cases",
+          "Verify JSON-RPC 2.0 specification compliance",
+          "Test batch request/response handling",
+          "Test notification handling (no response expected)"
+        ],
+        "example_test": "const mockTransport = vi.fn().mockResolvedValue({ jsonrpc: '2.0', result: 42, id: 1 });\nconst client = createJsonRpcClient(mockTransport);\nconst result = await client.call('test', {});\nexpect(result).toBe(42);"
+      }
+    },
+    "development": {
+      "type": "object",
+      "properties": {
+        "scripts": {
+          "build": "npm run build - Build all packages",
+          "test": "npm test - Run all tests with coverage", 
+          "lint": "npm run lint - Check code style with ESLint",
+          "format": "npm run format - Format code with Prettier",
+          "docs": "npm run docs - Generate API documentation",
+          "changelog": "npm run changelog - Generate changelog from commits"
+        },
+        "conventional_commits": "Uses conventional commit format for automated changelog generation",
+        "code_style": "ESLint + Prettier with TypeScript strict mode"
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "types": {
+    "feat": {
+      "description": "A new feature",
+      "emoji": "✨"
+    },
+    "fix": {
+      "description": "A bug fix",
+      "emoji": "🐛"
+    },
+    "docs": {
+      "description": "Documentation only changes",
+      "emoji": "📚"
+    },
+    "style": {
+      "description": "Changes that do not affect the meaning of the code",
+      "emoji": "💎"
+    },
+    "refactor": {
+      "description": "A code change that neither fixes a bug nor adds a feature",
+      "emoji": "📦"
+    },
+    "perf": {
+      "description": "A code change that improves performance",
+      "emoji": "🚀"
+    },
+    "test": {
+      "description": "Adding missing tests or correcting existing tests",
+      "emoji": "🚨"
+    },
+    "build": {
+      "description": "Changes that affect the build system or external dependencies",
+      "emoji": "🛠"
+    },
+    "ci": {
+      "description": "Changes to our CI configuration files and scripts",
+      "emoji": "⚙️"
+    },
+    "chore": {
+      "description": "Other changes that don't modify src or test files",
+      "emoji": "♻️"
+    }
+  },
+  "scopes": {
+    "core": {
+      "description": "Core package changes"
+    },
+    "client": {
+      "description": "Client package changes"
+    },
+    "server": {
+      "description": "Server package changes"
+    },
+    "docs": {
+      "description": "Documentation changes"
+    },
+    "deps": {
+      "description": "Dependency updates"
+    }
+  }
+}
