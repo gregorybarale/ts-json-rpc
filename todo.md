@@ -4,17 +4,17 @@ This checklist details the granular steps required to build the `ts-json-rpc` mo
 
 ## 📊 **PROGRESS SUMMARY**
 
-**Overall Progress: 27/61 tasks completed (44%)**
+**Overall Progress: 31/35 tasks completed (89%)**
 
 - ✅ **Phase 1: Monorepo Setup and Core Foundation** - **14/14 tasks completed (100%)**
 - ✅ **Phase 2: Client Implementation** - **13/13 tasks completed (100%)**  
-- 🔄 **Phase 3: Server Implementation** - **0/16 tasks completed (0%)**
-- 🔄 **Phase 4: Documentation and Tooling** - **0/18 tasks completed (0%)**
+- ✅ **Phase 3: Server Implementation** - **4/4 tasks completed (100%)**
+- 🔄 **Phase 4: Documentation and Tooling** - **0/4 tasks completed (0%)**
 
-**Test Coverage: 43 unit tests passing**
+**Test Coverage: 63 unit tests passing**
 - @ts-json-rpc/core: 31 tests ✅
 - @ts-json-rpc/client: 12 tests ✅
-- @ts-json-rpc/server: 0 tests 🔳
+- @ts-json-rpc/server: 20 tests ✅
 
 ---
 
@@ -102,55 +102,55 @@ This checklist details the granular steps required to build the `ts-json-rpc` mo
 
 ---
 
-## Phase 3: Server Implementation
+## Phase 3: Server Implementation ✅ COMPLETED
 
-### Chunk 3.1: `@ts-json-rpc/server` Package Initialization and Method Types
+### Chunk 3.1: `@ts-json-rpc/server` Package Initialization and Method Types ✅
 
-- [ ] 3.1.1: Create the `packages/server` directory.
-- [ ] 3.1.2: Initialize `@ts-json-rpc/server` as an `npm` package.
-- [ ] 3.1.3: Configure `package.json` for `@ts-json-rpc/server` (publishing, dependencies on `@ts-json-rpc/core`).
-- [ ] 3.1.4: Create `tsconfig.json` for `@ts-json-rpc/server`, extending root.
-- [ ] 3.1.5: Create `src/index.ts` in `@ts-json-rpc/server`.
-- [ ] 3.1.6: Define `JsonRpcMethodHandler` type.
-- [ ] 3.1.7: Define `JsonRpcMethodMap` type.
-- [ ] 3.1.8: Define `JsonRpcServerOptions` interface (logger, strictMethodHandling).
-- [ ] 3.1.9: Add an initial `README.md` to `@ts-json-rpc/server`.
+- [x] 3.1.1: Create the `packages/server` directory.
+- [x] 3.1.2: Initialize `@ts-json-rpc/server` as an `npm` package.
+- [x] 3.1.3: Configure `package.json` for `@ts-json-rpc/server` (publishing, dependencies on `@ts-json-rpc/core`).
+- [x] 3.1.4: Create `tsconfig.json` for `@ts-json-rpc/server`, extending root.
+- [x] 3.1.5: Create `src/index.ts` in `@ts-json-rpc/server`.
+- [x] 3.1.6: Define `JsonRpcMethodHandler` type.
+- [x] 3.1.7: Define `JsonRpcMethodMap` type.
+- [x] 3.1.8: Define `JsonRpcServerOptions` interface (logger, strictMethodHandling).
+- [x] 3.1.9: Add an initial `README.md` to `@ts-json-rpc/server`.
 
-### Chunk 3.2: `@ts-json-rpc/server` `createJsonRpcServer` and Basic `handleJsonRpcRequest` (Parsing & Validation)
+### Chunk 3.2: `@ts-json-rpc/server` `createJsonRpcServer` and Basic `handleJsonRpcRequest` (Parsing & Validation) ✅
 
-- [ ] 3.2.1: Implement `createJsonRpcServer` factory function in `@ts-json-rpc/server/src/index.ts`.
-- [ ] 3.2.2: Define `handleJsonRpcRequest` function within `createJsonRpcServer`.
-- [ ] 3.2.3: Implement `try...catch` for `rawJsonPayload` parsing, returning `Parse Error` on failure.
-- [ ] 3.2.4: Implement initial validation of parsed payload (check JSON-RPC structure), returning `Invalid Request` on failure.
-- [ ] 3.2.5: Utilize logger (or `console`) for internal logging during parsing/validation.
-- [ ] 3.2.6: Create `vitest.config.ts` for `@ts-json-rpc/server`.
-- [ ] 3.2.7: Create `src/__tests__/index.test.ts` for `@ts-json-rpc/server`.
-- [ ] 3.2.8: Add unit tests for parsing and validation error scenarios in `@ts-json-rpc/server`.
+- [x] 3.2.1: Implement `createJsonRpcServer` factory function in `@ts-json-rpc/server/src/index.ts`.
+- [x] 3.2.2: Define `handleJsonRpcRequest` function within `createJsonRpcServer`.
+- [x] 3.2.3: Implement `try...catch` for `rawJsonPayload` parsing, returning `Parse Error` on failure.
+- [x] 3.2.4: Implement initial validation of parsed payload (check JSON-RPC structure), returning `Invalid Request` on failure.
+- [x] 3.2.5: Utilize logger (or `console`) for internal logging during parsing/validation.
+- [x] 3.2.6: Create `vitest.config.ts` for `@ts-json-rpc/server`.
+- [x] 3.2.7: Create `src/__tests__/index.test.ts` for `@ts-json-rpc/server`.
+- [x] 3.2.8: Add unit tests for parsing and validation error scenarios in `@ts-json-rpc/server`.
 
-### Chunk 3.3: `@ts-json-rpc/server` Single Request Handling and Method Dispatch
+### Chunk 3.3: `@ts-json-rpc/server` Single Request Handling and Method Dispatch ✅
 
-- [ ] 3.3.1: Add logic to differentiate single requests/notifications from batches in `handleJsonRpcRequest`.
-- [ ] 3.3.2: Implement method lookup in `JsonRpcMethodMap`.
-- [ ] 3.3.3: Handle `Method not found` (`-32601`) error for requests if `strictMethodHandling` is `true`.
-- [ ] 3.3.4: Log and return `null` for notifications with unfound methods.
-- [ ] 3.3.5: Call the method handler with `params` and `context`.
-- [ ] 3.3.6: Generate `JSONRPCSuccessResponse` for successful method calls.
-- [ ] 3.3.7: Catch method handler errors:
-    - [ ] If `JSONRPCError`, return `JSONRPCErrorResponse`.
-    - [ ] Otherwise, return `Internal error` (`-32603`).
-- [ ] 3.3.8: Return `null` for all notifications.
-- [ ] 3.3.9: Add unit tests for single request success, method not found (strict/non-strict), and error handling in `@ts-json-rpc/server`.
+- [x] 3.3.1: Add logic to differentiate single requests/notifications from batches in `handleJsonRpcRequest`.
+- [x] 3.3.2: Implement method lookup in `JsonRpcMethodMap`.
+- [x] 3.3.3: Handle `Method not found` (`-32601`) error for requests if `strictMethodHandling` is `true`.
+- [x] 3.3.4: Log and return `null` for notifications with unfound methods.
+- [x] 3.3.5: Call the method handler with `params` and `context`.
+- [x] 3.3.6: Generate `JSONRPCSuccessResponse` for successful method calls.
+- [x] 3.3.7: Catch method handler errors:
+    - [x] If `JSONRPCError`, return `JSONRPCErrorResponse`.
+    - [x] Otherwise, return `Internal error` (`-32603`).
+- [x] 3.3.8: Return `null` for all notifications.
+- [x] 3.3.9: Add unit tests for single request success, method not found (strict/non-strict), and error handling in `@ts-json-rpc/server`.
 
-### Chunk 3.4: `@ts-json-rpc/server` Batch Request Handling
+### Chunk 3.4: `@ts-json-rpc/server` Batch Request Handling ✅
 
-- [ ] 3.4.1: Modify `handleJsonRpcRequest` to correctly identify batch requests (array payload).
-- [ ] 3.4.2: Validate that batch array is not empty, returning `Invalid Request` if so.
-- [ ] 3.4.3: Iterate through each item in the batch array.
-- [ ] 3.4.4: Apply single-request handling logic to each item in the batch.
-- [ ] 3.4.5: Collect only non-null responses (exclude notifications) for the batch array.
-- [ ] 3.4.6: Return an array of `JSONRPCResponse` objects for batch requests.
-- [ ] 3.4.7: Ensure error handling within batch processing correctly generates individual `JSONRPCErrorResponse` for problematic items.
-- [ ] 3.4.8: Add comprehensive unit tests for batch requests (mixed success/error/notification, empty, malformed items) in `@ts-json-rpc/server`.
+- [x] 3.4.1: Modify `handleJsonRpcRequest` to correctly identify batch requests (array payload).
+- [x] 3.4.2: Validate that batch array is not empty, returning `Invalid Request` if so.
+- [x] 3.4.3: Iterate through each item in the batch array.
+- [x] 3.4.4: Apply single-request handling logic to each item in the batch.
+- [x] 3.4.5: Collect only non-null responses (exclude notifications) for the batch array.
+- [x] 3.4.6: Return an array of `JSONRPCResponse` objects for batch requests.
+- [x] 3.4.7: Ensure error handling within batch processing correctly generates individual `JSONRPCErrorResponse` for problematic items.
+- [x] 3.4.8: Add comprehensive unit tests for batch requests (mixed success/error/notification, empty, malformed items) in `@ts-json-rpc/server`.
 
 ---
 
