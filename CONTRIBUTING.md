@@ -151,20 +151,79 @@ This project prioritizes type safety:
 
 ## 📝 Making Changes
 
-### Workflow
+### Git Flow Workflow
 
-1. **Create a Branch**
+This project follows the **Git Flow** workflow for organized development and releases.
+
+#### Branch Structure
+
+We maintain two primary branches:
+- **`main`**: Production-ready code with official release history
+- **`develop`**: Integration branch where features are merged for testing
+
+#### Branch Types and Naming Conventions
+
+1. **Feature Branches**
+   - **Prefix**: `feature/`
+   - **Created from**: `develop`
+   - **Merged into**: `develop`
+   - **Example**: `feature/batch-request-support`
+
+2. **Release Branches** 
+   - **Prefix**: `release/`
+   - **Created from**: `develop`
+   - **Merged into**: `main` and `develop`
+   - **Example**: `release/1.2.0`
+
+3. **Hotfix Branches**
+   - **Prefix**: `hotfix/`
+   - **Created from**: `main`
+   - **Merged into**: `main` and `develop`
+   - **Example**: `hotfix/critical-error-fix`
+
+#### Git Flow Setup
+
+1. **Install Git Flow** (optional but recommended):
    ```bash
-   git checkout -b feature/your-feature-name
-   # or
-   git checkout -b fix/issue-description
+   # macOS
+   brew install git-flow-avh
+   
+   # Ubuntu/Debian
+   sudo apt-get install git-flow
+   
+   # Windows
+   # Download from: https://github.com/petervanderdoes/gitflow-avh
    ```
 
-2. **Make Changes**
-   - Follow the coding standards
-   - Add tests for new functionality
-   - Update documentation as needed
-   - Ensure builds pass
+2. **Initialize Git Flow** (if using git-flow extensions):
+   ```bash
+   git flow init
+   # Accept defaults: main/develop branches
+   # Feature prefix: feature/
+   # Release prefix: release/
+   # Hotfix prefix: hotfix/
+   ```
+
+#### Development Workflow
+
+##### For New Features
+
+1. **Start a Feature**
+   ```bash
+   # With git-flow
+   git flow feature start your-feature-name
+   
+   # Or manually
+   git checkout develop
+   git pull origin develop
+   git checkout -b feature/your-feature-name
+   ```
+
+2. **Develop the Feature**
+   - Follow coding standards
+   - Add comprehensive tests
+   - Update documentation
+   - Ensure all checks pass
 
 3. **Test Your Changes**
    ```bash
@@ -173,16 +232,93 @@ This project prioritizes type safety:
    npm run lint
    ```
 
-4. **Commit Changes**
+4. **Finish the Feature**
    ```bash
-   git add .
-   git commit -m "feat: add your feature description"
+   # With git-flow (creates PR to develop)
+   git flow feature finish your-feature-name
+   
+   # Or manually
+   git checkout develop
+   git pull origin develop
+   git merge feature/your-feature-name
+   git branch -d feature/your-feature-name
    ```
 
-5. **Push and Create PR**
+##### For Releases
+
+1. **Start a Release** (maintainers only)
    ```bash
-   git push origin feature/your-feature-name
+   # With git-flow
+   git flow release start 1.2.0
+   
+   # Or manually
+   git checkout develop
+   git pull origin develop
+   git checkout -b release/1.2.0
    ```
+
+2. **Prepare Release**
+   - Update version numbers
+   - Update CHANGELOG.md
+   - Final testing and bug fixes
+   - No new features
+
+3. **Finish Release** (maintainers only)
+   ```bash
+   # With git-flow
+   git flow release finish 1.2.0
+   
+   # Or manually
+   git checkout main
+   git merge release/1.2.0
+   git tag -a v1.2.0 -m "Release version 1.2.0"
+   git checkout develop  
+   git merge release/1.2.0
+   git branch -d release/1.2.0
+   ```
+
+##### For Hotfixes
+
+1. **Start a Hotfix**
+   ```bash
+   # With git-flow
+   git flow hotfix start critical-fix
+   
+   # Or manually
+   git checkout main
+   git pull origin main
+   git checkout -b hotfix/critical-fix
+   ```
+
+2. **Fix the Issue**
+   - Make minimal changes
+   - Add regression tests
+   - Update version number
+
+3. **Finish Hotfix**
+   ```bash
+   # With git-flow
+   git flow hotfix finish critical-fix
+   
+   # Or manually
+   git checkout main
+   git merge hotfix/critical-fix
+   git tag -a v1.1.1 -m "Hotfix version 1.1.1"
+   git checkout develop
+   git merge hotfix/critical-fix
+   git branch -d hotfix/critical-fix
+   ```
+
+#### Branch Protection Rules
+
+- **`main`** branch is protected and requires:
+  - Pull request reviews
+  - All status checks passing
+  - Up-to-date branches
+  
+- **`develop`** branch requires:
+  - Pull request for feature merges
+  - All tests passing
 
 ### Pull Request Guidelines
 

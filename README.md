@@ -203,13 +203,33 @@ We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for gu
 
 ### Development Workflow
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Make your changes
-4. Run tests: `npm test`
-5. Run linting: `npm run lint`
-6. Commit using conventional commits: `feat: add new feature`
-7. Push and create a pull request
+This project follows the **Git Flow** workflow:
+
+1. **Fork the repository**
+2. **Set up Git Flow**:
+   ```bash
+   git flow init  # Accept defaults
+   ```
+3. **Start a feature**:
+   ```bash
+   git flow feature start your-feature-name
+   # Or manually: git checkout -b feature/your-feature-name develop
+   ```
+4. **Make your changes**
+5. **Test thoroughly**:
+   ```bash
+   npm run build
+   npm test
+   npm run lint
+   ```
+6. **Commit using conventional commits**: `feat: add new feature`
+7. **Finish feature and create PR**:
+   ```bash
+   git flow feature finish your-feature-name
+   # Then create PR from feature/your-feature-name to develop
+   ```
+
+For detailed Git Flow guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## 📄 License
 
