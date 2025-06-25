@@ -1,46 +1,29 @@
-# Git Flow Setup and Reference
+# Git Flow Reference
 
-This document provides detailed setup instructions and reference for using Git Flow with the ts-json-rpc project.
+This document provides detailed instructions for using Git Flow with the ts-json-rpc project using standard git commands only.
 
 ## 🚀 Quick Setup
 
-### 1. Install Git Flow Extensions
+### Prerequisites
+- Git installed and configured
+- Access to the repository
 
-Choose your platform:
+### Initial Setup
 
-**macOS (with Homebrew):**
-```bash
-brew install git-flow-avh
-```
-
-**Ubuntu/Debian:**
-```bash
-sudo apt-get install git-flow
-```
-
-**Windows:**
-- Download from: [Git Flow AVH](https://github.com/petervanderdoes/gitflow-avh)
-- Or use Git Bash with manual commands (see Manual Workflow section)
-
-**Alternative - Use Manual Git Commands:**
-You don't need the git-flow extensions. All workflows can be done with standard git commands (see examples throughout this document).
-
-### 2. Initialize Git Flow
-
-In your local repository:
+Ensure you have both main branches:
 
 ```bash
-git flow init
-```
+# Clone the repository
+git clone <repository-url>
+cd ts-json-rpc
 
-Accept the defaults:
-- Production branch: `main`
-- Development branch: `develop` 
-- Feature prefix: `feature/`
-- Release prefix: `release/`
-- Hotfix prefix: `hotfix/`
-- Support prefix: `support/`
-- Version tag prefix: `v`
+# Create develop branch if it doesn't exist
+git checkout -b develop
+git push -u origin develop
+
+# Switch back to main
+git checkout main
+```
 
 ## 📋 Branch Strategy Overview
 
@@ -59,10 +42,6 @@ Accept the defaults:
 
 #### Start a Feature
 ```bash
-# With git-flow
-git flow feature start add-websocket-transport
-
-# Manual approach
 git checkout develop
 git pull origin develop
 git checkout -b feature/add-websocket-transport
@@ -78,29 +57,34 @@ npm run lint
 # Commit regularly
 git add .
 git commit -m "feat(transport): add WebSocket transport implementation"
+
+# Push feature branch for backup/collaboration
+git push -u origin feature/add-websocket-transport
 ```
 
 #### Finish Feature
 ```bash
-# With git-flow
-git flow feature finish add-websocket-transport
-
-# Manual approach
+# Update develop branch
 git checkout develop
 git pull origin develop
+
+# Merge feature with no-fast-forward to preserve branch history
 git merge --no-ff feature/add-websocket-transport
-git branch -d feature/add-websocket-transport
+
+# Push changes
 git push origin develop
+
+# Clean up local branch
+git branch -d feature/add-websocket-transport
+
+# Clean up remote branch
+git push origin --delete feature/add-websocket-transport
 ```
 
 ### Release Process
 
 #### Start Release (Maintainers)
 ```bash
-# With git-flow
-git flow release start 1.2.0
-
-# Manual approach
 git checkout develop
 git pull origin develop
 git checkout -b release/1.2.0
@@ -122,36 +106,39 @@ npm run lint
 # Commit release changes
 git add .
 git commit -m "chore(release): prepare version 1.2.0"
+
+# Push release branch
+git push -u origin release/1.2.0
 ```
 
 #### Finish Release (Maintainers)
 ```bash
-# With git-flow
-git flow release finish 1.2.0
-
-# Manual approach
+# Merge to main
 git checkout main
 git pull origin main
 git merge --no-ff release/1.2.0
+
+# Tag the release
 git tag -a v1.2.0 -m "Release version 1.2.0"
+
+# Push main and tags
 git push origin main --tags
 
+# Merge back to develop
 git checkout develop
 git pull origin develop  
 git merge --no-ff release/1.2.0
 git push origin develop
 
+# Clean up release branch
 git branch -d release/1.2.0
+git push origin --delete release/1.2.0
 ```
 
 ### Hotfix Process
 
 #### Start Hotfix
 ```bash
-# With git-flow
-git flow hotfix start critical-security-fix
-
-# Manual approach
 git checkout main
 git pull origin main
 git checkout -b hotfix/critical-security-fix
@@ -169,41 +156,65 @@ npm run lint
 
 git add .
 git commit -m "fix(security): resolve critical vulnerability"
+
+# Push hotfix branch
+git push -u origin hotfix/critical-security-fix
 ```
 
 #### Finish Hotfix
 ```bash
-# With git-flow  
-git flow hotfix finish critical-security-fix
-
-# Manual approach
+# Merge to main
 git checkout main
 git pull origin main
 git merge --no-ff hotfix/critical-security-fix
+
+# Tag the hotfix
 git tag -a v1.1.1 -m "Hotfix version 1.1.1"
+
+# Push main and tags
 git push origin main --tags
 
+# Merge to develop
 git checkout develop
 git pull origin develop
 git merge --no-ff hotfix/critical-security-fix  
 git push origin develop
 
+# Clean up hotfix branch
 git branch -d hotfix/critical-security-fix
+git push origin --delete hotfix/critical-security-fix
 ```
 
 ## 🔧 Configuration
 
 ### Git Aliases (Optional)
-Add to your `~/.gitconfig`:
+Add to your `~/.gitconfig` for convenience:
 
 ```ini
 [alias]
-    fs = flow feature start
-    ff = flow feature finish
-    rs = flow release start  
-    rf = flow release finish
-    hs = flow hotfix start
-    hf = flow hotfix finish
+    # Feature workflow
+    feature-start = "!f() { git checkout develop && git pull origin develop && git checkout -b feature/$1; }; f"
+    feature-finish = "!f() { git checkout develop && git pull origin develop && git merge --no-ff feature/$1 && git push origin develop && git branch -d feature/$1 && git push origin --delete feature/$1; }; f"
+    
+    # Release workflow  
+    release-start = "!f() { git checkout develop && git pull origin develop && git checkout -b release/$1; }; f"
+    release-finish = "!f() { git checkout main && git pull origin main && git merge --no-ff release/$1 && git tag -a v$1 -m \"Release version $1\" && git push origin main --tags && git checkout develop && git pull origin develop && git merge --no-ff release/$1 && git push origin develop && git branch -d release/$1 && git push origin --delete release/$1; }; f"
+    
+    # Hotfix workflow
+    hotfix-start = "!f() { git checkout main && git pull origin main && git checkout -b hotfix/$1; }; f"
+    hotfix-finish = "!f() { git checkout main && git pull origin main && git merge --no-ff hotfix/$1 && git tag -a v$2 -m \"Hotfix version $2\" && git push origin main --tags && git checkout develop && git pull origin develop && git merge --no-ff hotfix/$1 && git push origin develop && git branch -d hotfix/$1 && git push origin --delete hotfix/$1; }; f"
+```
+
+Usage examples:
+```bash
+git feature-start websocket-transport
+git feature-finish websocket-transport
+
+git release-start 1.2.0
+git release-finish 1.2.0
+
+git hotfix-start critical-fix
+git hotfix-finish critical-fix 1.1.1
 ```
 
 ### Branch Protection (Repository Settings)
@@ -243,7 +254,11 @@ Configure on GitHub/GitLab:
 
 ### Feature Branches
 - Keep features small and focused
-- Regularly rebase on develop
+- Regularly rebase on develop to avoid conflicts:
+  ```bash
+  git checkout feature/my-feature
+  git rebase develop
+  ```
 - Write comprehensive tests
 - Update documentation
 - Use conventional commit messages
@@ -268,40 +283,87 @@ Configure on GitHub/GitLab:
 
 **"Branch already exists"**
 ```bash  
-git branch -d feature/branch-name
-git flow feature start branch-name
+git branch -D feature/branch-name
+git checkout develop
+git checkout -b feature/branch-name
 ```
 
-**"Not a git flow repository"**
+**"Merge conflicts during merge"**
 ```bash
-git flow init
-```
-
-**"Merge conflicts during finish"**
-```bash
-# Resolve conflicts manually
+# During merge, if conflicts occur:
+git status  # See conflicted files
+# Edit files to resolve conflicts
 git add .
 git commit -m "resolve merge conflicts"
-git flow feature finish feature-name
+```
+
+**"Accidentally committed to wrong branch"**
+```bash
+# Move commits to correct branch
+git checkout correct-branch
+git cherry-pick <commit-hash>
+git checkout wrong-branch
+git reset --hard HEAD~1  # Remove last commit
 ```
 
 ### Recovery Commands
 
 **Clean up abandoned branches:**
 ```bash
+# Local cleanup
 git branch -D feature/abandoned-feature
+
+# Remote cleanup
 git push origin --delete feature/abandoned-feature
 ```
 
-**Reset to clean state:**
+**Sync with remote:**
 ```bash
-git flow init -f  # Force reinitialize
+# Fetch all remote branches
+git fetch --all
+
+# See all branches
+git branch -a
+
+# Clean up local references to deleted remote branches
+git remote prune origin
 ```
+
+**Reset branch to match remote:**
+```bash
+git checkout main
+git reset --hard origin/main
+```
+
+## 📈 Workflow Summary
+
+### Daily Development
+1. Start from `develop`
+2. Create `feature/` branch
+3. Work and commit regularly
+4. Push feature branch for backup
+5. Merge to `develop` when complete
+6. Clean up feature branch
+
+### Release Cycle
+1. Create `release/` from `develop`
+2. Prepare release (versions, changelog)
+3. Test thoroughly
+4. Merge to `main` and tag
+5. Merge back to `develop`
+6. Clean up release branch
+
+### Emergency Fixes
+1. Create `hotfix/` from `main`
+2. Fix issue quickly
+3. Test fix
+4. Merge to `main` and tag
+5. Merge to `develop`
+6. Clean up hotfix branch
 
 ## 📚 References
 
 - [Git Flow Original Blog Post](https://nvie.com/posts/a-successful-git-branching-model/)
 - [Atlassian Git Flow Tutorial](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
-- [Git Flow AVH](https://github.com/petervanderdoes/gitflow-avh)
 - [Semantic Versioning](https://semver.org/)
 - [Conventional Commits](https://www.conventionalcommits.org/)
