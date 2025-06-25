@@ -213,7 +213,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for gu
 
 ## 📄 License
 
-MIT - see [LICENSE](./LICENSE) for details.
+MIT - see [LICENSE.md](./LICENSE.md) for details.
 
 ## 🙏 Acknowledgments
 
