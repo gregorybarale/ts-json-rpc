@@ -87,13 +87,13 @@ git push origin --delete feature/add-websocket-transport
 ```bash
 git checkout develop
 git pull origin develop
-git checkout -b release/1.2.0
+git checkout -b release/0.2.0
 ```
 
 #### Prepare Release
 ```bash
 # Update package.json versions
-npm version 1.2.0 --no-git-tag-version
+npm version 0.2.0 --no-git-tag-version
 
 # Update CHANGELOG.md
 npm run changelog
@@ -105,10 +105,10 @@ npm run lint
 
 # Commit release changes
 git add .
-git commit -m "chore(release): prepare version 1.2.0"
+git commit -m "chore(release): prepare version 0.2.0"
 
 # Push release branch
-git push -u origin release/1.2.0
+git push -u origin release/0.2.0
 ```
 
 #### Finish Release (Maintainers)
@@ -116,10 +116,10 @@ git push -u origin release/1.2.0
 # Merge to main
 git checkout main
 git pull origin main
-git merge --no-ff release/1.2.0
+git merge --no-ff release/0.2.0
 
 # Tag the release
-git tag -a v1.2.0 -m "Release version 1.2.0"
+git tag -a v0.2.0 -m "Release version 0.2.0"
 
 # Push main and tags
 git push origin main --tags
@@ -127,12 +127,12 @@ git push origin main --tags
 # Merge back to develop
 git checkout develop
 git pull origin develop  
-git merge --no-ff release/1.2.0
+git merge --no-ff release/0.2.0
 git push origin develop
 
 # Clean up release branch
-git branch -d release/1.2.0
-git push origin --delete release/1.2.0
+git branch -d release/0.2.0
+git push origin --delete release/0.2.0
 ```
 
 ### Hotfix Process
@@ -169,7 +169,7 @@ git pull origin main
 git merge --no-ff hotfix/critical-security-fix
 
 # Tag the hotfix
-git tag -a v1.1.1 -m "Hotfix version 1.1.1"
+git tag -a v0.1.1 -m "Hotfix version 0.1.1"
 
 # Push main and tags
 git push origin main --tags
@@ -210,11 +210,11 @@ Usage examples:
 git feature-start websocket-transport
 git feature-finish websocket-transport
 
-git release-start 1.2.0
-git release-finish 1.2.0
+git release-start 0.2.0
+git release-finish 0.2.0
 
 git hotfix-start critical-fix
-git hotfix-finish critical-fix 1.1.1
+git hotfix-finish critical-fix 0.1.1
 ```
 
 ### Branch Protection (Repository Settings)
@@ -241,9 +241,9 @@ Configure on GitHub/GitLab:
 - `feature/typescript-5-support`
 
 ### Releases
-- `release/1.0.0` (major)
-- `release/1.1.0` (minor) 
-- `release/1.1.1` (patch)
+- `release/0.1.0` (initial)
+- `release/0.2.0` (minor) 
+- `release/0.1.1` (patch)
 
 ### Hotfixes
 - `hotfix/security-vulnerability`

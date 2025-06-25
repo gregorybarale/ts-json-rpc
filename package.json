@@ -1,6 +1,6 @@
 {
   "name": "ts-json-rpc",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A robust, type-safe, and transport-agnostic TypeScript library for building JSON-RPC 2.0 clients and servers",
   "type": "module",
   "private": true,

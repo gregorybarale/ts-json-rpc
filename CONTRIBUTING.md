@@ -173,7 +173,7 @@ We maintain two primary branches:
    - **Prefix**: `release/`
    - **Created from**: `develop`
    - **Merged into**: `main` and `develop`
-   - **Example**: `release/1.2.0`
+   - **Example**: `release/0.2.0`
 
 3. **Hotfix Branches**
    - **Prefix**: `hotfix/`
@@ -249,12 +249,12 @@ We maintain two primary branches:
 1. **Start a Release** (maintainers only)
    ```bash
    # With git-flow
-   git flow release start 1.2.0
+   git flow release start 0.2.0
    
    # Or manually
    git checkout develop
    git pull origin develop
-   git checkout -b release/1.2.0
+   git checkout -b release/0.2.0
    ```
 
 2. **Prepare Release**
@@ -266,15 +266,15 @@ We maintain two primary branches:
 3. **Finish Release** (maintainers only)
    ```bash
    # With git-flow
-   git flow release finish 1.2.0
+   git flow release finish 0.2.0
    
    # Or manually
    git checkout main
-   git merge release/1.2.0
-   git tag -a v1.2.0 -m "Release version 1.2.0"
+   git merge release/0.2.0
+   git tag -a v0.2.0 -m "Release version 0.2.0"
    git checkout develop  
-   git merge release/1.2.0
-   git branch -d release/1.2.0
+   git merge release/0.2.0
+   git branch -d release/0.2.0
    ```
 
 ##### For Hotfixes
@@ -303,7 +303,7 @@ We maintain two primary branches:
    # Or manually
    git checkout main
    git merge hotfix/critical-fix
-   git tag -a v1.1.1 -m "Hotfix version 1.1.1"
+   git tag -a v0.1.1 -m "Hotfix version 0.1.1"
    git checkout develop
    git merge hotfix/critical-fix
    git branch -d hotfix/critical-fix
